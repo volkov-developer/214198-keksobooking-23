@@ -1,6 +1,6 @@
-const getRandomFloat = (min, max, dec) => {
-  const isPositiveNumber = (value) => value >= 0 && typeof value === 'number' && !Number.isNaN(value);
+const isPositiveNumber = (value) => typeof value === 'number' && !Number.isNaN(value) && value >= 0;
 
+const getRandomFloat = (min, max, dec) => {
   if (!(isPositiveNumber(min) && isPositiveNumber(max) && isPositiveNumber(dec))) {
     throw new Error('Переданные агрументы должны быть числами и больше нуля включая');
   }

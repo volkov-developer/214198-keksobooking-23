@@ -8,6 +8,21 @@ const TITLES = [
   'Отель',
 ];
 
+const PriceRange = {
+  MIN_PRICE: 1000,
+  MAX_PRICE: 20000,
+};
+
+const RoomRange = {
+  MIN_ROOMS: 1,
+  MAX_ROOMS: 10,
+};
+
+const GuestRange = {
+  MIN_GUESTS: 1,
+  MAX_GUESTS: 10,
+};
+
 const DESCRIPTIONS = [
   'Ну очень крутой Дворец',
   'Ну очень крутая Квартира',
@@ -47,11 +62,11 @@ const PHOTOS = [
   `${PHOTOS_ROOT}/claire-rendall-b6kAwr1i0Iw.jpg`,
 ];
 
-const LOCATION = {
-  minLat: 35.65000,
-  maxLat: 35.70000,
-  minLng: 139.70000,
-  maxLng: 139.80000,
+const Location = {
+  MIN_LAT: 35.65000,
+  MAX_LAT: 35.70000,
+  MIN_LNG: 139.70000,
+  MAX_LNG: 139.80000,
 };
 
 const APPARTMENT_COUNT = 10;
@@ -99,25 +114,26 @@ const getRandomAvatarIndex = createGetRandomItem(AVATAR_NUMBERS);
 
 const padLeft = (index) => `${index}`.padStart(2, '0');
 
-const getAvatar = (index) => `img/avatars/user${padLeft(index)}.png`;
+const getAvatarUrl = (index) => `img/avatars/user${padLeft(index)}.png`;
 
 const createAppartment = () => {
-  const appartmentLat = getRandomFloat(LOCATION.minLat, LOCATION.maxLat, 5);
-  const appartmentLng = getRandomFloat(LOCATION.minLng, LOCATION.maxLng, 5);
+  const appartmentLat = getRandomFloat(Location.MIN_LAT, Location.MAX_LAT, 5);
+  const appartmentLng = getRandomFloat(Location.MIN_LNG, Location.MAX_LNG, 5);
+  const checkinCheckout = getRandomArrayElement(CHECKINS);
 
   return {
     author: {
-      avatar: getAvatar(getRandomAvatarIndex()),
+      avatar: getAvatarUrl(getRandomAvatarIndex()),
     },
     offer: {
       title: getRandomArrayElement(TITLES),
       address: `${appartmentLat}, ${appartmentLng}`,
-      price: getRandomNumber(10, 20),
+      price: getRandomNumber(PriceRange.MIN_PRICE, PriceRange.MAX_PRICE),
       type: getRandomArrayElement(TYPES),
-      rooms: getRandomNumber(1, 5),
-      guest: getRandomNumber(1, 10),
-      checkin: getRandomArrayElement(CHECKINS),
-      checkout: getRandomArrayElement(CHECKINS),
+      rooms: getRandomNumber(RoomRange.MIN_ROOMS, RoomRange.MAX_ROOMS),
+      guest: getRandomNumber(GuestRange.MIN_GUESTS, GuestRange.MAX_GUESTS),
+      checkin: checkinCheckout,
+      checkout: checkinCheckout,
       features: getRandomArrayItems(FEATURES, false),
       description: getRandomArrayElement(DESCRIPTIONS),
       photos: getRandomArrayItems(PHOTOS, false),
@@ -131,4 +147,4 @@ const createAppartment = () => {
 
 const appartmentsArray = new Array(APPARTMENT_COUNT).fill(null).map(() => createAppartment());
 
-appartmentsArray();
+appartmentsArray;

@@ -9,18 +9,18 @@ const TITLES = [
 ];
 
 const PriceRange = {
-  MIN_PRICE: 1000,
-  MAX_PRICE: 20000,
+  MIN: 1000,
+  MAX: 20000,
 };
 
 const RoomRange = {
-  MIN_ROOMS: 1,
-  MAX_ROOMS: 10,
+  MIN: 1,
+  MAX: 10,
 };
 
 const GuestRange = {
-  MIN_GUESTS: 1,
-  MAX_GUESTS: 10,
+  MIN: 1,
+  MAX: 10,
 };
 
 const DESCRIPTIONS = [
@@ -38,6 +38,18 @@ const TYPES = [
   'bungalow',
   'hotel',
 ];
+
+const AD_TYPES = {
+  palace: 'Дворец',
+  flat: 'Квартира',
+  house: 'Дом',
+  bungalow:'Бунгало',
+  hotel: 'Отель',
+};
+
+const ROOMS = ['комната', 'комнаты', 'комнат'];
+
+const GUESTS = ['гостя', 'гостей', 'гостей'];
 
 const CHECKINS = [
   '12:00',
@@ -63,10 +75,10 @@ const PHOTOS = [
 ];
 
 const Location = {
-  MIN_LAT: 35.65000,
-  MAX_LAT: 35.70000,
-  MIN_LNG: 139.70000,
-  MAX_LNG: 139.80000,
+  LAT_MIN: 35.65000,
+  LAT_MAX: 35.70000,
+  LNG_MIN: 139.70000,
+  LNG_MAX: 139.80000,
 };
 
 const APPARTMENT_COUNT = 10;
@@ -79,6 +91,9 @@ export {
   GuestRange,
   DESCRIPTIONS,
   TYPES,
+  AD_TYPES,
+  ROOMS,
+  GUESTS,
   CHECKINS,
   FEATURES,
   PHOTOS,

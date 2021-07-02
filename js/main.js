@@ -1,11 +1,9 @@
-import {
-  APPARTMENT_COUNT
-} from '/js/constants.js';
+import { getAds } from '/js/data.js';
+import { renderCard } from '/js/card.js';
+import { enableForms, disableForms } from '/js/form.js';
 
-import {
-  createAppartment
-} from '/js/data.js';
+disableForms();
+setTimeout(enableForms, 1500);
 
-const appartmentsArray = new Array(APPARTMENT_COUNT).fill(null).map(() => createAppartment());
-
-appartmentsArray;
+const ads = getAds();
+renderCard(ads[0]);

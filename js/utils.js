@@ -37,10 +37,41 @@ const createGetRandomItem = (data) => {
   return () => mixed[i++ % mixedLength];
 };
 
+const fillBy = (count, cb) => {
+  const result = [];
+
+  for (let i = 0; i < count; i++) {
+    result.push(cb());
+  }
+
+  return result;
+};
+
+const getPluralIdx = (count) => {
+  const c10 = count % 10;
+  const c100 = count % 100;
+
+  if (c10 === 1 && c100 !== 11) {
+    return 0;
+  }
+
+  if (c10 >= 2 && c100 <=4 && (c100 < 10 || c10 >= 20)) {
+    return 1;
+  }
+
+  return 2;
+};
+
+const plurilize = (count, plurals) => plurals[getPluralIdx(count)];
+
+const getPlural = (count, plurals) => `${count} ${plurilize(count, plurals)}`;
+
 export {
   getRandomFloat,
   getRandomNumber,
   getRandomArrayElement,
   getRandomArrayItems,
-  createGetRandomItem
+  createGetRandomItem,
+  fillBy,
+  getPlural
 };

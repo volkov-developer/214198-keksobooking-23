@@ -9,7 +9,8 @@ import {
   CHECKINS,
   FEATURES,
   PHOTOS,
-  Location
+  Location,
+  APPARTMENT_COUNT
 } from '/js/constants.js';
 
 import {
@@ -17,8 +18,9 @@ import {
   getRandomNumber,
   getRandomArrayElement,
   getRandomArrayItems,
-  createGetRandomItem
-} from '/js/util.js';
+  createGetRandomItem,
+  fillBy
+} from '/js/utils.js';
 
 const getRandomAvatarIndex = createGetRandomItem(AVATAR_NUMBERS);
 
@@ -26,10 +28,10 @@ const padLeft = (index) => `${index}`.padStart(2, '0');
 
 const getAvatarUrl = (index) => `img/avatars/user${padLeft(index)}.png`;
 
-const createAppartment = () => {
-  const appartmentLat = getRandomFloat(Location.MIN_LAT, Location.MAX_LAT, 5);
-  const appartmentLng = getRandomFloat(Location.MIN_LNG, Location.MAX_LNG, 5);
-  const checkinCheckout = getRandomArrayElement(CHECKINS);
+const getRandomAd = () => {
+  const lat = getRandomFloat(Location.LAT_MIN, Location.LAT_MAX, 5);
+  const lng = getRandomFloat(Location.LNG_MIN, Location.LNG_MAX, 5);
+  const time = getRandomArrayElement(CHECKINS);
 
   return {
     author: {
@@ -37,22 +39,24 @@ const createAppartment = () => {
     },
     offer: {
       title: getRandomArrayElement(TITLES),
-      address: `${appartmentLat}, ${appartmentLng}`,
-      price: getRandomNumber(PriceRange.MIN_PRICE, PriceRange.MAX_PRICE),
+      address: `${lat}, ${lng}`,
+      price: getRandomNumber(PriceRange.MIN, PriceRange.MAX),
       type: getRandomArrayElement(TYPES),
-      rooms: getRandomNumber(RoomRange.MIN_ROOMS, RoomRange.MAX_ROOMS),
-      guest: getRandomNumber(GuestRange.MIN_GUESTS, GuestRange.MAX_GUESTS),
-      checkin: checkinCheckout,
-      checkout: checkinCheckout,
+      rooms: getRandomNumber(RoomRange.MIN, RoomRange.MAX),
+      guests: getRandomNumber(GuestRange.MIN, GuestRange.MAX),
+      checkin: time,
+      checkout: time,
       features: getRandomArrayItems(FEATURES, false),
       description: getRandomArrayElement(DESCRIPTIONS),
       photos: getRandomArrayItems(PHOTOS, false),
     },
     location: {
-      lat: appartmentLat,
-      lng: appartmentLng,
+      lat: lat,
+      lng: lng,
     },
   };
 };
 
-export { createAppartment };
+const getAds = () => fillBy(APPARTMENT_COUNT, getRandomAd);
+
+export { getAds };

@@ -1,6 +1,6 @@
-import { getAds } from '/js/data.js';
-import { renderCard } from '/js/card.js';
-import { enableForms, disableForms } from '/js/form.js';
+import { getAds } from './data.js';
+import { renderCard } from './card.js';
+import { enableForms, disableForms } from './form.js';
 
 disableForms();
 setTimeout(enableForms, 1500);

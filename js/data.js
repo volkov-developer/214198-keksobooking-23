@@ -11,7 +11,7 @@ import {
   PHOTOS,
   Location,
   APPARTMENT_COUNT
-} from '/js/constants.js';
+} from './constants.js';
 
 import {
   getRandomFloat,
@@ -20,7 +20,7 @@ import {
   getRandomArrayItems,
   createGetRandomItem,
   fillBy
-} from '/js/utils.js';
+} from './utils.js';
 
 const getRandomAvatarIndex = createGetRandomItem(AVATAR_NUMBERS);
 

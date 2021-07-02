@@ -2,17 +2,17 @@ import {
   AD_TYPES,
   ROOMS,
   GUESTS
-} from '/js/constants.js';
+} from './constants.js';
 
 import {
   getPlural
-} from '/js/utils.js';
+} from './utils.js';
 
 import {
   removeExtraFeatures,
   renderPhotos,
   setOrRemove
-} from '/js/dom-utils.js';
+} from './dom-utils.js';
 
 const CARD_TEMPLATE = document.querySelector('#card').content.querySelector('.popup');
 const MAP_ELEMENT = document.querySelector('.map');

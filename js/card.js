@@ -35,16 +35,16 @@ const renderCard = (ad) => {
   const photosContainer = card.querySelector('.popup__photos');
   const photoElement = photosContainer.querySelector('.popup__photo');
 
-  const capacityText = `${getPlural(offer && offer.rooms, ROOMS)} для ${getPlural(offer && offer.guests, GUESTS)}`;
-  const timeText = `Заезд после ${offer && offer.checkin}, выезд до ${offer && offer.checkout}`;
+  const capacityText = `${getPlural(offer.rooms, ROOMS)} для ${getPlural(offer.guests, GUESTS)}`;
+  const timeText = `Заезд после ${offer.checkin}, выезд до ${offer.checkout}`;
 
-  setOrRemove(title, offer && offer.title);
-  setOrRemove(address, offer && offer.address);
-  setOrRemove(price, offer && offer.price, `${offer && offer.price} ₽/ночь`);
-  setOrRemove(type, offer && offer.type, `${AD_TYPES[offer && offer.type] ? AD_TYPES[offer && offer.type] : ''}`);
-  setOrRemove(capacity, (offer && offer.rooms) * (offer && offer.guests), capacityText);
-  setOrRemove(time, (offer && offer.checkin && offer.checkin.length) * (offer && offer.checkout && offer.checkout.length), timeText);
-  setOrRemove(description, offer && offer.description);
+  setOrRemove(title, offer.title);
+  setOrRemove(address, offer.address);
+  setOrRemove(price, offer.price, `${offer.price} ₽/ночь`);
+  setOrRemove(type, offer.type, `${AD_TYPES[offer.type] ? AD_TYPES[offer.type] : ''}`);
+  setOrRemove(capacity, offer.rooms * offer.guests, capacityText);
+  setOrRemove(time, (offer.checkin && offer.checkin.length) * (offer.checkout && offer.checkout.length), timeText);
+  setOrRemove(description, offer.description);
 
   avatar.src = author.avatar;
 

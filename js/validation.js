@@ -4,7 +4,13 @@ const HeaderLength = {
 };
 
 const PriceValue = {
-  MIN: 0,
+  MIN: {
+    bungalow: 0,
+    flat: 1000,
+    hotel: 3000,
+    house: 5000,
+    palace: 10000,
+  },
   MAX: 1000000,
 };
 
@@ -16,6 +22,9 @@ const validateNumber = (value, min, max) => isNumber(value) && value >= min && v
 const validateLength = (value, minLength, maxLength) => isString(value) && validateNumber(value.length, minLength, maxLength);
 
 const validateHeader = (header) => validateLength(header, HeaderLength.MIN, HeaderLength.MAX);
-const validatePrice = (price) => validateNumber(price, PriceValue.MIN, PriceValue.MAX);
+
+const validatePrice = (price, minPrice) => {
+  validateNumber(price, PriceValue.MIN[minPrice], PriceValue.MAX);
+};
 
 export { validateHeader, validatePrice, HeaderLength, PriceValue };

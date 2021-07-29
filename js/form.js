@@ -1,44 +1,92 @@
-const AD_FORM = document.querySelector('.ad-form');
-const MAP_FILTERS = document.querySelector('.map__filters');
+import {validateHeader, validatePrice, HeaderLength, PriceValue } from './validation.js';
 
-const FORMS = [
-  {
-    element: AD_FORM,
-    disabledClass: 'ad-form--disabled',
-    selector: 'fieldset',
-  },
-  {
-    element: MAP_FILTERS,
-    disabledClass: 'map__filters--disabled',
-    selector: 'fieldset, select',
-  },
-];
+const FORM = document.querySelector('.ad-form');
+const HEADER = FORM.querySelector('#title');
+const ADDRESS = FORM.querySelector('#address');
+const PRICE = FORM.querySelector('#price');
+const ROOM_NUMBER = FORM.querySelector('#room_number');
+const CAPACITY = FORM.querySelector('#capacity');
 
-const switchForm = (form, className, selector, enable) => {
-  if (enable) {
-    form.classList.remove(className);
+const prepareHeader = () => {
+  HEADER.setAttribute('required', true);
+  HEADER.setAttribute('minlength', HeaderLength.MIN);
+  HEADER.setAttribute('maxlength', HeaderLength.MAX);
+};
+
+const preparePrice = () => {
+  PRICE.setAttribute('required', true);
+  PRICE.setAttribute('min', PriceValue.MIN);
+  PRICE.setAttribute('max', PriceValue.MAX);
+};
+
+const prepareAddress = () => {
+  ADDRESS.setAttribute('required', true);
+  ADDRESS.setAttribute('value', 'Введите адрес');
+};
+
+const prepareForm = () => {
+  prepareHeader();
+  preparePrice();
+  prepareAddress();
+};
+
+const handleHeaderChange = (evt) => {
+  const element = evt.target;
+  const value = element.value;
+
+  if (!validateHeader(value)) {
+    element.setCustomValidity(`Мин. ${HeaderLength.MIN} знаков, макс. знаков ${HeaderLength.MAX}`);
   } else {
-    form.classList.add(className);
+    element.setCustomValidity('');
   }
 
-  const controls = form.querySelectorAll(selector);
+  element.reportValidity();
+};
 
-  controls.forEach((control) => {
-    if (enable) {
-      control.removeAttribute('disabled');
-    } else {
-      control.setAttribute('disabled', true);
+const handlePriceChange = (evt) => {
+  const element = evt.target;
+  const value = element.value;
+
+  if (!validatePrice(Number(value))) {
+    element.setCustomValidity(`Мин. ${PriceValue.MIN}, макс. ${PriceValue.MAX}`);
+  } else {
+    element.setCustomValidity('');
+  }
+
+  element.reportValidity();
+};
+
+const handleRoomsCapacityChange = () => {
+  const rooms = Number(ROOM_NUMBER.value);
+  const count = Number(CAPACITY.value);
+
+  let message = '';
+
+  if (rooms === 100) {
+    if (count !== 0) {
+      message = '100 комнат не для гостей';
     }
-  });
+  } else {
+    if (count === 0 || rooms < count) {
+      message = 'Гостей должно быть меньше или равно количеству комнат';
+    }
+  }
+
+  CAPACITY.setCustomValidity(message);
+  CAPACITY.reportValidity();
 };
 
-const switchForms = (enable) => {
-  FORMS.forEach(({element, disabledClass, selector}) => {
-    switchForm(element, disabledClass, selector, enable);
-  });
+const addValidators = () => {
+  HEADER.addEventListener('input', handleHeaderChange);
+  PRICE.addEventListener('input', handlePriceChange);
+  ROOM_NUMBER.addEventListener('change', handleRoomsCapacityChange);
+  CAPACITY.addEventListener('change', handleRoomsCapacityChange);
 };
 
-const disableForms = () => switchForms(false);
-const enableForms = () => switchForms(true);
+const validateForm = () => {
 
-export { enableForms, disableForms};
+};
+
+prepareForm();
+
+export { validateForm,  addValidators };

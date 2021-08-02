@@ -83,6 +83,22 @@ const Location = {
 
 const APPARTMENT_COUNT = 10;
 
+const HeaderLength = {
+  MIN: 30,
+  MAX: 100,
+};
+
+const PriceValue = {
+  MIN: {
+    bungalow: 0,
+    flat: 1000,
+    hotel: 3000,
+    house: 5000,
+    palace: 10000,
+  },
+  MAX: 1000000,
+};
+
 export {
   AVATAR_NUMBERS,
   TITLES,
@@ -98,5 +114,7 @@ export {
   FEATURES,
   PHOTOS,
   Location,
-  APPARTMENT_COUNT
+  APPARTMENT_COUNT,
+  HeaderLength,
+  PriceValue
 };

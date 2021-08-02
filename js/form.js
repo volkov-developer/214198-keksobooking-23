@@ -1,4 +1,5 @@
-import {validateHeader, validatePrice, HeaderLength, PriceValue } from './validation.js';
+import { HeaderLength, PriceValue } from './constants.js';
+import { validateHeader, validatePrice } from './validation.js';
 
 const FORM = document.querySelector('.ad-form');
 const HEADER = FORM.querySelector('#title');
@@ -9,8 +10,6 @@ const CAPACITY = FORM.querySelector('#capacity');
 const TYPE = FORM.querySelector('#type');
 const TIME_IN = FORM.querySelector('#timein');
 const TIME_OUT = FORM.querySelector('#timeout');
-const TIME_IN_OPTIONS = Array.from(TIME_IN.options);
-const TIME_OUT_OPTIONS = Array.from(TIME_OUT.options);
 
 const prepareHeader = () => {
   HEADER.setAttribute('required', true);
@@ -20,13 +19,13 @@ const prepareHeader = () => {
 
 const preparePrice = () => {
   PRICE.setAttribute('required', true);
-  PRICE.setAttribute('min', PriceValue.MIN);
+  PRICE.setAttribute('placeholder', PriceValue.MIN[TYPE.value]);
+  PRICE.setAttribute('min', PriceValue.MIN[TYPE.value]);
   PRICE.setAttribute('max', PriceValue.MAX);
 };
 
 const prepareAddress = () => {
   ADDRESS.setAttribute('required', true);
-  ADDRESS.setAttribute('value', 'Введите адрес');
 };
 
 const prepareForm = () => {
@@ -39,12 +38,11 @@ const handleHeaderChange = (evt) => {
   const element = evt.target;
   const value = element.value;
 
-  if (!validateHeader(value)) {
-    element.setCustomValidity(`Мин. ${HeaderLength.MIN} знаков, макс. знаков ${HeaderLength.MAX}`);
-  } else {
-    element.setCustomValidity('');
-  }
+  let message;
 
+  validateHeader(value) ? message = '' : message = `Мин. ${HeaderLength.MIN} знаков, макс. знаков ${HeaderLength.MAX}`;
+
+  element.setCustomValidity(message);
   element.reportValidity();
 };
 
@@ -52,11 +50,16 @@ const handlePriceChange = (evt) => {
   const element = evt.target;
   const value = element.value;
 
-  if (!validatePrice(Number(value))) {
-    element.setCustomValidity(`Мин. ${PriceValue.MIN}, макс. ${PriceValue.MAX}`);
-  } else {
-    element.setCustomValidity('');
-  }
+  let message;
+
+  validatePrice(Number(value), PriceValue.MIN[TYPE.value]) ? message = '' : message = `Мин. ${PriceValue.MIN[TYPE.value]}, макс. ${PriceValue.MAX}`;
+
+  element.setCustomValidity(message);
+
+  console.log('value', Number(value));
+  console.log('minValue', PriceValue.MIN[TYPE.value]);
+  console.log(PRICE.validity);
+  console.log('customError', PRICE.validity.customError);
 
   element.reportValidity();
 };
@@ -89,31 +92,16 @@ const handleTypeChange = (evt) => {
   PRICE.setAttribute('placeholder', PriceValue.MIN[value]);
 };
 
-const handleTimeinChange = (evt) => {
+const handleTimeChange = (evt) => {
   const element = evt.target;
   const value = element.value;
 
-  TIME_OUT_OPTIONS.forEach((option) => {
-    if (value === option.value) {
-      option.setAttribute('selected', '');
-    } else {
-      option.removeAttribute('selected');
-    }
-  });
+  TIME_IN.value = value;
+  TIME_OUT.value = value;
 };
 
-const handleTimeoutChange = (evt) => {
-  const element = evt.target;
-  const value = element.value;
-
-  TIME_IN_OPTIONS.forEach((option) => {
-    if (value === option.value) {
-      option.setAttribute('selected', '');
-    } else {
-      option.removeAttribute('selected');
-    }
-  });
-};
+const handleTimeInChange = (evt) => handleTimeChange(evt);
+const handleTimeOutChange = (evt) => handleTimeChange(evt);
 
 const addValidators = () => {
   HEADER.addEventListener('input', handleHeaderChange);
@@ -121,8 +109,8 @@ const addValidators = () => {
   ROOM_NUMBER.addEventListener('change', handleRoomsCapacityChange);
   CAPACITY.addEventListener('change', handleRoomsCapacityChange);
   TYPE.addEventListener('change', handleTypeChange);
-  TIME_IN.addEventListener('change', handleTimeinChange);
-  TIME_OUT.addEventListener('change', handleTimeoutChange);
+  TIME_IN.addEventListener('change', handleTimeInChange);
+  TIME_OUT.addEventListener('change', handleTimeOutChange);
 };
 
 const validateForm = () => {

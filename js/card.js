@@ -15,8 +15,6 @@ import {
 } from './dom-utils.js';
 
 const CARD_TEMPLATE = document.querySelector('#card').content.querySelector('.popup');
-const MAP_ELEMENT = document.querySelector('.map');
-const MAP_CANVAS_ELEMENT = MAP_ELEMENT.querySelector('#map-canvas');
 
 const renderCard = (ad) => {
   const { offer, author } = ad;
@@ -56,7 +54,7 @@ const renderCard = (ad) => {
 
   photosContainer.appendChild(renderPhotos(photoElement, offer.photos));
 
-  MAP_CANVAS_ELEMENT.appendChild(card);
+  return card;
 };
 
 export { renderCard };

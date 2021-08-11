@@ -9,8 +9,6 @@ const validateLength = (value, minLength, maxLength) => isString(value) && valid
 
 const validateHeader = (header) => validateLength(header, HeaderLength.MIN, HeaderLength.MAX);
 
-const validatePrice = (price, minPrice) => {
-  validateNumber(price, PriceValue.MIN[minPrice], PriceValue.MAX);
-};
+const validatePrice = (price, type) => validateNumber(price, PriceValue.MIN[type], PriceValue.MAX);
 
 export { validateHeader, validatePrice };

@@ -38,9 +38,7 @@ const handleHeaderChange = (evt) => {
   const element = evt.target;
   const value = element.value;
 
-  let message;
-
-  validateHeader(value) ? message = '' : message = `Мин. ${HeaderLength.MIN} знаков, макс. знаков ${HeaderLength.MAX}`;
+  const message = validateHeader(value) ? '' : `Мин. ${HeaderLength.MIN} знаков, макс. знаков ${HeaderLength.MAX}`;
 
   element.setCustomValidity(message);
   element.reportValidity();
@@ -50,16 +48,11 @@ const handlePriceChange = (evt) => {
   const element = evt.target;
   const value = element.value;
 
-  let message;
+  const type = TYPE.value;
 
-  validatePrice(Number(value), PriceValue.MIN[TYPE.value]) ? message = '' : message = `Мин. ${PriceValue.MIN[TYPE.value]}, макс. ${PriceValue.MAX}`;
+  const message = validatePrice(Number(value), type) ? '' : `Мин. ${PriceValue.MIN[TYPE.value]}, макс. ${PriceValue.MAX}`;
 
   element.setCustomValidity(message);
-
-  console.log('value', Number(value));
-  console.log('minValue', PriceValue.MIN[TYPE.value]);
-  console.log(PRICE.validity);
-  console.log('customError', PRICE.validity.customError);
 
   element.reportValidity();
 };
@@ -104,6 +97,8 @@ const handleTimeInChange = (evt) => handleTimeChange(evt);
 const handleTimeOutChange = (evt) => handleTimeChange(evt);
 
 const addValidators = () => {
+  handleRoomsCapacityChange();
+
   HEADER.addEventListener('input', handleHeaderChange);
   PRICE.addEventListener('input', handlePriceChange);
   ROOM_NUMBER.addEventListener('change', handleRoomsCapacityChange);
@@ -114,9 +109,8 @@ const addValidators = () => {
 };
 
 const validateForm = () => {
-
+  prepareForm();
+  addValidators();
 };
 
-prepareForm();
-
-export { validateForm,  addValidators };
+export { validateForm };

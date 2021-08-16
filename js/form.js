@@ -1,4 +1,4 @@
-import { HeaderLength, PriceValue } from './constants.js';
+import { HeaderLength, PriceValue, ROOMS_CAPACITY_DEFAULT } from './constants.js';
 import { validateHeader, validatePrice } from './validation.js';
 
 const FORM = document.querySelector('.ad-form');
@@ -28,10 +28,16 @@ const prepareAddress = () => {
   ADDRESS.setAttribute('required', true);
 };
 
+const prepareRoomsCapacity = () => {
+  ROOM_NUMBER.value = ROOMS_CAPACITY_DEFAULT;
+  CAPACITY.value = ROOMS_CAPACITY_DEFAULT;
+};
+
 const prepareForm = () => {
   prepareHeader();
   preparePrice();
   prepareAddress();
+  prepareRoomsCapacity();
 };
 
 const handleHeaderChange = (evt) => {
@@ -44,17 +50,15 @@ const handleHeaderChange = (evt) => {
   element.reportValidity();
 };
 
-const handlePriceChange = (evt) => {
-  const element = evt.target;
-  const value = element.value;
-
+const handlePriceChange = () => {
+  const price = PRICE.value;
   const type = TYPE.value;
 
-  const message = validatePrice(Number(value), type) ? '' : `Мин. ${PriceValue.MIN[TYPE.value]}, макс. ${PriceValue.MAX}`;
+  const message = validatePrice(Number(price), type) ? '' : `Мин. ${PriceValue.MIN[TYPE.value]}, макс. ${PriceValue.MAX}`;
 
-  element.setCustomValidity(message);
+  PRICE.setCustomValidity(message);
 
-  element.reportValidity();
+  PRICE.reportValidity();
 };
 
 const handleRoomsCapacityChange = () => {
@@ -83,6 +87,10 @@ const handleTypeChange = (evt) => {
 
   PRICE.setAttribute('min', PriceValue.MIN[value]);
   PRICE.setAttribute('placeholder', PriceValue.MIN[value]);
+
+  if(PRICE.value.length !== 0) {
+    handlePriceChange();
+  }
 };
 
 const handleTimeChange = (evt) => {
@@ -96,13 +104,14 @@ const handleTimeChange = (evt) => {
 const handleTimeInChange = (evt) => handleTimeChange(evt);
 const handleTimeOutChange = (evt) => handleTimeChange(evt);
 
-const addValidators = () => {
-  handleRoomsCapacityChange();
+const handleCapacityChange = () => handleRoomsCapacityChange();
+const handleRoomsChange = () => handleRoomsCapacityChange();
 
+const addValidators = () => {
   HEADER.addEventListener('input', handleHeaderChange);
   PRICE.addEventListener('input', handlePriceChange);
-  ROOM_NUMBER.addEventListener('change', handleRoomsCapacityChange);
-  CAPACITY.addEventListener('change', handleRoomsCapacityChange);
+  ROOM_NUMBER.addEventListener('change', handleRoomsChange);
+  CAPACITY.addEventListener('change', handleCapacityChange);
   TYPE.addEventListener('change', handleTypeChange);
   TIME_IN.addEventListener('change', handleTimeInChange);
   TIME_OUT.addEventListener('change', handleTimeOutChange);

@@ -99,6 +99,8 @@ const PriceValue = {
   MAX: 1000000,
 };
 
+const ROOMS_CAPACITY_DEFAULT = 1;
+
 export {
   AVATAR_NUMBERS,
   TITLES,
@@ -116,5 +118,6 @@ export {
   Location,
   APPARTMENT_COUNT,
   HeaderLength,
-  PriceValue
+  PriceValue,
+  ROOMS_CAPACITY_DEFAULT
 };
